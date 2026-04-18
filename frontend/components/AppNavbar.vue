@@ -40,7 +40,7 @@ function selectLang(code: typeof lang.value) {
 
       <!-- Logo -->
       <NuxtLink to="/" class="shrink-0 text-xl font-extrabold tracking-tight text-brand-600 dark:text-brand-400">
-        Ridafaty
+        Idafaty
       </NuxtLink>
 
       <!-- Desktop category links -->

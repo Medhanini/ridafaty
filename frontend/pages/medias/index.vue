@@ -4,7 +4,7 @@ import { usePermission } from '~/composables/usePermission'
 import { getVideoEmbed } from '~/composables/useVideoEmbed'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Media — Ridafaty' })
+useSeoMeta({ title: 'Media — Idafaty' })
 
 const store = useMediasStore()
 const { can } = usePermission()

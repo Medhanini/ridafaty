@@ -3,7 +3,7 @@ import { useSubCategoriesStore } from '~/stores/subcategories'
 import { useCategoriesStore } from '~/stores/categories'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Edit Sub-Category — Ridafaty' })
+useSeoMeta({ title: 'Edit Sub-Category — Idafaty' })
 
 const route = useRoute()
 const store = useSubCategoriesStore()

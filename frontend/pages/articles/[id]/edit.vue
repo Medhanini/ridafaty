@@ -5,7 +5,7 @@ import { useTagsStore } from '~/stores/tags'
 import { useMediasStore } from '~/stores/medias'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Edit Article — Ridafaty' })
+useSeoMeta({ title: 'Edit Article — Idafaty' })
 
 const route = useRoute()
 const articlesStore = useArticlesStore()

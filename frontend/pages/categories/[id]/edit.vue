@@ -2,7 +2,7 @@
 import { useCategoriesStore } from '~/stores/categories'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Edit Category — Ridafaty' })
+useSeoMeta({ title: 'Edit Category — Idafaty' })
 
 const route = useRoute()
 const store = useCategoriesStore()

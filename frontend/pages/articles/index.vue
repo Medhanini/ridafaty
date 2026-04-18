@@ -4,7 +4,7 @@ import { useSubCategoriesStore } from '~/stores/subcategories'
 import { usePermission } from '~/composables/usePermission'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Articles — Ridafaty' })
+useSeoMeta({ title: 'Articles — Idafaty' })
 
 const store = useArticlesStore()
 const subCatStore = useSubCategoriesStore()

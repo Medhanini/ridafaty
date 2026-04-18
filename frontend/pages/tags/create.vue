@@ -2,7 +2,7 @@
 import { useTagsStore } from '~/stores/tags'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Create Tag — Ridafaty' })
+useSeoMeta({ title: 'Create Tag — Idafaty' })
 
 const store = useTagsStore()
 

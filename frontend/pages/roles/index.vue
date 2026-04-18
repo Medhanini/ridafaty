@@ -2,7 +2,7 @@
 import { useRolesStore } from '~/stores/roles'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Roles — Ridafaty' })
+useSeoMeta({ title: 'Roles — Idafaty' })
 
 const store = useRolesStore()
 

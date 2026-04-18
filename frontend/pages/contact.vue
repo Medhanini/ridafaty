@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Contact',
-  description: 'Get in touch with the Ridafaty team.',
+  description: 'Get in touch with the Idafaty team.',
 })
 
 const form = reactive({ name: '', email: '', message: '' })

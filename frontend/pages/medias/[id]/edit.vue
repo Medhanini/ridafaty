@@ -3,7 +3,7 @@ import { useMediasStore } from '~/stores/medias'
 import { getVideoEmbed } from '~/composables/useVideoEmbed'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Edit Media — Ridafaty' })
+useSeoMeta({ title: 'Edit Media — Idafaty' })
 
 const route = useRoute()
 const store = useMediasStore()

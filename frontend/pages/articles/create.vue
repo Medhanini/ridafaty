@@ -5,7 +5,7 @@ import { useTagsStore } from '~/stores/tags'
 import { useMediasStore } from '~/stores/medias'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'New Article — Ridafaty' })
+useSeoMeta({ title: 'New Article — Idafaty' })
 
 const articlesStore = useArticlesStore()
 const subCatStore = useSubCategoriesStore()

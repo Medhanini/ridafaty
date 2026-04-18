@@ -3,7 +3,7 @@ import { useCategoriesStore } from '~/stores/categories'
 import { usePermission } from '~/composables/usePermission'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Categories — Ridafaty' })
+useSeoMeta({ title: 'Categories — Idafaty' })
 
 const store = useCategoriesStore()
 const { can } = usePermission()

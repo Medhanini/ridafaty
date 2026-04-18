@@ -2,7 +2,7 @@
 import { useAuthStore } from '~/stores/auth'
 
 definePageMeta({ layout: false, middleware: 'guest' })
-useSeoMeta({ title: 'Sign in — Ridafaty' })
+useSeoMeta({ title: 'Sign in — Idafaty' })
 
 const auth = useAuthStore()
 
@@ -23,7 +23,7 @@ async function submit() {
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           </svg>
         </div>
-        <h1 class="text-2xl font-bold text-gray-900">Ridafaty Admin</h1>
+        <h1 class="text-2xl font-bold text-gray-900">Idafaty Admin</h1>
         <p class="text-sm text-gray-500">Sign in to your account</p>
       </div>
 
@@ -47,7 +47,7 @@ async function submit() {
               type="email"
               autocomplete="email"
               required
-              placeholder="admin@ridafaty.com"
+              placeholder="admin@Idafaty.com"
               class="block w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm placeholder-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
             />
           </div>

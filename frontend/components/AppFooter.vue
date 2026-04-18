@@ -50,7 +50,7 @@ const socialLinks = [
         <!-- Brand column -->
         <div>
           <NuxtLink to="/" class="text-2xl font-extrabold tracking-tight text-brand-600 dark:text-brand-400">
-            Ridafaty
+            Idafaty
           </NuxtLink>
           <p class="mt-3 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-gray-400">
             {{ t.about }}
@@ -108,7 +108,7 @@ const socialLinks = [
       <!-- Bottom bar -->
       <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-gray-100 pt-6 dark:border-gray-800 sm:flex-row">
         <p class="text-xs text-gray-400 dark:text-gray-600">
-          © {{ year }} Ridafaty. {{ t.rights }}.
+          © {{ year }} Idafaty. {{ t.rights }}.
         </p>
         <p class="text-xs text-gray-400 dark:text-gray-600">
           {{ t.language }}: {{ langOptions?.find(o => o.code === lang)?.native }}

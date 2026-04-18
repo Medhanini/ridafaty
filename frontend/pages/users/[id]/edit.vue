@@ -3,7 +3,7 @@ import { useUsersStore } from '~/stores/users'
 import { useRolesStore } from '~/stores/roles'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Edit User — Ridafaty' })
+useSeoMeta({ title: 'Edit User — Idafaty' })
 
 const route = useRoute()
 const id = Number(route.params.id)

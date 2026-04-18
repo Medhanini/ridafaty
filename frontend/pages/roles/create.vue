@@ -3,7 +3,7 @@ import { useRolesStore } from '~/stores/roles'
 import { usePermissionsStore } from '~/stores/permissions'
 
 definePageMeta({ layout: 'admin', middleware: 'auth' })
-useSeoMeta({ title: 'Create Role — Ridafaty' })
+useSeoMeta({ title: 'Create Role — Idafaty' })
 
 const rolesStore = useRolesStore()
 const permissionsStore = usePermissionsStore()

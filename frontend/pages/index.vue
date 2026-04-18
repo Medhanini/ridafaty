@@ -7,9 +7,9 @@ const { t, lang } = useLang()
 const { publicFetch } = usePublicFetch()
 
 useSeoMeta({
-  title: computed(() => 'Ridafaty'),
-  description: computed(() => t.value.highlights + ' — Ridafaty'),
-  ogTitle: 'Ridafaty',
+  title: computed(() => 'Idafaty'),
+  description: computed(() => t.value.highlights + ' — Idafaty'),
+  ogTitle: 'Idafaty',
   ogType: 'website',
 })
 
