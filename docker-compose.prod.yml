@@ -1,0 +1,103 @@
+# =============================================================================
+# Production Docker Compose – idafaty.com
+#
+# Usage on VPS:
+#   docker compose -f docker-compose.prod.yml pull
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# Required environment file: .env.prod  (copy from .env.prod.example)
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # MySQL 8 – no external port exposure in prod
+  # ---------------------------------------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: ridafaty_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE:      ${MYSQL_DATABASE:-ridafaty}
+      MYSQL_USER:          ${MYSQL_USER:-ridafaty}
+      MYSQL_PASSWORD:      ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD-SHELL', 'mysql -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e "SELECT 1" $$MYSQL_DATABASE']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - ridafaty_net
+
+  # ---------------------------------------------------------------------------
+  # Node.js / Express backend – bound to localhost only (Nginx proxies /api)
+  # ---------------------------------------------------------------------------
+  backend:
+    image: ghcr.io/${GITHUB_REPO_OWNER}/ridafaty-backend:latest
+    container_name: ridafaty_backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3001"   # not exposed to internet – Nginx only
+    environment:
+      NODE_ENV:      production
+      HOST:          0.0.0.0
+      PORT:          3001
+      DATABASE_URL:  mysql://${MYSQL_USER:-ridafaty}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE:-ridafaty}
+      CORS_ORIGINS:  https://idafaty.com,https://www.idafaty.com
+      APP_URL:       https://idafaty.com
+      JWT_SECRET:    ${JWT_SECRET}
+      LOG_LEVEL:     info
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '-', 'http://127.0.0.1:3001/api/health']
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 60s
+    networks:
+      - ridafaty_net
+
+  # ---------------------------------------------------------------------------
+  # Nuxt 3 SSR frontend – bound to localhost only (Nginx proxies /)
+  # ---------------------------------------------------------------------------
+  frontend:
+    image: ghcr.io/${GITHUB_REPO_OWNER}/ridafaty-frontend:latest
+    container_name: ridafaty_frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"   # not exposed to internet – Nginx only
+    environment:
+      NODE_ENV:                production
+      HOST:                    0.0.0.0
+      PORT:                    3000
+      NUXT_API_SECRET:         ${NUXT_API_SECRET}
+      NUXT_PUBLIC_API_BASE:    https://idafaty.com/api   # browser-facing URL
+      NUXT_API_BASE_INTERNAL:  http://backend:3001/api   # SSR server-to-server
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '-', 'http://127.0.0.1:3000/']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - ridafaty_net
+
+networks:
+  ridafaty_net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  uploads_data:
+    driver: local

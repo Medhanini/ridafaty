@@ -1,0 +1,24 @@
+# ── Secrets (NEVER commit) ────────────────────────────────────────────────────
+.env
+.env.prod
+.env.local
+.env.*.local
+
+# ── Node ─────────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+
+# ── Nuxt ─────────────────────────────────────────────────────────────────────
+frontend/.nuxt/
+frontend/.output/
+frontend/dist/
+
+# ── Uploads (managed as Docker volume in prod) ────────────────────────────────
+backend/uploads/
+
+# ── OS / Editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

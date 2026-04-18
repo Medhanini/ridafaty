@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(curl -s \"http://localhost:3000/sante\")"
+      "Bash(curl -s \"http://localhost:3000/sante\")",
+      "Bash(python -)"
     ]
   }
 }
