@@ -75,6 +75,9 @@ COPY --chown=nodejs:nodejs docker-entrypoint.sh package.json ./
 
 RUN chmod +x docker-entrypoint.sh
 
+# Pre-create uploads dir so the volume mounts with correct ownership
+RUN mkdir -p /app/uploads/images && chown -R nodejs:nodejs /app/uploads
+
 USER nodejs
 
 EXPOSE 3001
