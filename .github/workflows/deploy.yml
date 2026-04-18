@@ -88,11 +88,16 @@ jobs:
           script: |
             set -euo pipefail
 
+            # Bootstrap: clone repo on first deploy if not present
+            if [ ! -d /opt/ridafaty/.git ]; then
+              git clone https://github.com/${{ github.repository }}.git /opt/ridafaty
+            fi
+
             # Authenticate Docker to GHCR so it can pull the new images
             echo "${{ secrets.GHCR_TOKEN }}" \
               | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 
             # Run the deploy script (pulls code + images, restarts, health-checks)
-            bash /var/www/idafaty/scripts/deploy.sh
+            bash /opt/ridafaty/scripts/deploy.sh
 
             echo "Deployed commit $GITHUB_SHA"
