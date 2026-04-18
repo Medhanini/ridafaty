@@ -90,6 +90,8 @@ jobs:
 
             # Bootstrap: clone repo on first deploy if not present
             if [ ! -d /opt/ridafaty/.git ]; then
+              sudo mkdir -p /opt/ridafaty
+              sudo chown "$(whoami)" /opt/ridafaty
               git clone https://github.com/${{ github.repository }}.git /opt/ridafaty
             fi
 
