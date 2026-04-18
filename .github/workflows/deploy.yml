@@ -2,7 +2,7 @@ name: CI/CD – Build & Deploy to VPS
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:        # allow manual trigger from GitHub UI
 
 # Cancel any in-progress run for the same branch
@@ -12,9 +12,9 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  # Images will be: ghcr.io/OWNER/ridafaty-frontend  and  ghcr.io/OWNER/ridafaty-backend
-  IMAGE_FRONTEND: ghcr.io/${{ github.repository_owner }}/ridafaty-frontend
-  IMAGE_BACKEND:  ghcr.io/${{ github.repository_owner }}/ridafaty-backend
+  # Images pushed to GHCR – must match docker-compose.prod.yml on the VPS
+  IMAGE_FRONTEND: ghcr.io/${{ github.repository_owner }}/idafaty-frontend
+  IMAGE_BACKEND:  ghcr.io/${{ github.repository_owner }}/idafaty-backend
 
 jobs:
   # ════════════════════════════════════════════════════════════════════════════
@@ -93,6 +93,6 @@ jobs:
               | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
 
             # Run the deploy script (pulls code + images, restarts, health-checks)
-            bash /opt/ridafaty/scripts/deploy.sh
+            bash /var/www/idafaty/scripts/deploy.sh
 
             echo "Deployed commit $GITHUB_SHA"

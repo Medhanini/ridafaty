@@ -12,6 +12,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --frozen-lockfile
 
+# Generate Prisma client in the deps stage so runner can copy the binary
+COPY prisma ./prisma
+RUN npx prisma generate
+
 # =============================================================================
 # Stage 2 – dev: hot-reload development server (target: dev)
 # docker-compose mounts ./src and ./prisma as volumes for live reload.
