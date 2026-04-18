@@ -38,7 +38,8 @@ ok "Images pulled"
 
 # ── 3. Restart services ───────────────────────────────────────────────────────
 log "Restarting services..."
-docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d --remove-orphans
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" down --remove-orphans 2>/dev/null || true
+docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" up -d
 ok "Services restarted"
 
 # ── 4. Wait for health checks ─────────────────────────────────────────────────
