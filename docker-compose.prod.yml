@@ -97,6 +97,9 @@ networks:
     driver: bridge
 
 volumes:
+  # WARNING: never run `docker compose down -v` — it deletes these volumes.
+  # Deploy scripts must only recreate app containers (backend, frontend),
+  # never bring the DB down.
   mysql_data:
     driver: local
   uploads_data:
