@@ -10,6 +10,8 @@ const { t, formatDate, isRTL } = useLang()
 
 const size = computed(() => props.size ?? 'md')
 
+const NuxtLinkComp = resolveComponent('NuxtLink')
+
 const coverImage = computed(() =>
   props.article.media?.find((m) => m.media.type === 'image')?.media ?? null,
 )
@@ -31,7 +33,7 @@ const articleUrl = computed(() => {
 
 <template>
   <component
-    :is="articleUrl ? 'NuxtLink' : 'article'"
+    :is="articleUrl ? NuxtLinkComp : 'article'"
     v-bind="articleUrl ? { to: articleUrl } : {}"
     :class="[
       'group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-md dark:bg-gray-800',
