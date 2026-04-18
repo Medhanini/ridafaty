@@ -26,9 +26,9 @@ log "Starting deployment at $(date)"
 cd "$APP_DIR"
 
 # ── 1. Pull latest code ───────────────────────────────────────────────────────
-log "Pulling latest code from main..."
-git fetch origin main
-git reset --hard origin/main
+log "Pulling latest code from master..."
+git fetch origin master
+git reset --hard origin/master
 ok "Code up to date ($(git rev-parse --short HEAD))"
 
 # ── 2. Pull latest Docker images ─────────────────────────────────────────────
