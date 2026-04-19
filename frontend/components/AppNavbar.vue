@@ -5,9 +5,11 @@ const { t, lang, langOptions, setLang, isRTL } = useLang()
 const { isDark, toggle: toggleDark } = useColorMode()
 const { publicFetch } = usePublicFetch()
 
-// Load categories for nav links
-const { data: categoriesData } = await useAsyncData('nav-categories', () =>
-  publicFetch<{ data: Category[]; total: number }>('/categories?limit=8'),
+// Load categories for nav links, filtered by active language
+const { data: categoriesData } = await useAsyncData(
+  () => `nav-categories-${lang.value}`,
+  () => publicFetch<{ data: Category[]; total: number }>(`/categories?limit=8&lang=${lang.value}`),
+  { watch: [lang] },
 )
 const categories = computed<Category[]>(() => categoriesData.value?.data ?? [])
 

@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { Category } from '~/types'
 
-const { t, lang } = useLang()
+const { t, lang, langOptions } = useLang()
 const { publicFetch } = usePublicFetch()
 const year = new Date().getFullYear()
 
-const { data: categoriesData } = await useAsyncData('footer-categories', () =>
-  publicFetch<{ data: Category[]; total: number }>('/categories?limit=8'),
+const { data: categoriesData } = await useAsyncData(
+  () => `footer-categories-${lang.value}`,
+  () => publicFetch<{ data: Category[]; total: number }>(`/categories?limit=8&lang=${lang.value}`),
+  { watch: [lang] },
 )
 const categories = computed<Category[]>(() => categoriesData.value?.data ?? [])
 
