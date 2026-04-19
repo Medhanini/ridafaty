@@ -110,9 +110,17 @@ const socialLinks = [
         <p class="text-xs text-gray-400 dark:text-gray-600">
           © {{ year }} Idafaty. {{ t.rights }}.
         </p>
-        <p class="text-xs text-gray-400 dark:text-gray-600">
-          {{ t.language }}: {{ langOptions?.find(o => o.code === lang)?.native }}
-        </p>
+        <div class="flex items-center gap-4">
+          <p class="text-xs text-gray-400 dark:text-gray-600">
+            {{ t.language }}: {{ langOptions?.find(o => o.code === lang)?.native }}
+          </p>
+          <a
+            href="/sitemap.xml"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs text-gray-400 transition-colors hover:text-brand-600 dark:text-gray-600 dark:hover:text-brand-400"
+          >Sitemap</a>
+        </div>
       </div>
     </div>
   </footer>
