@@ -49,9 +49,12 @@ const success = ref(false)
 async function submit() {
   success.value = false
   rolesStore.clearError()
+  // Snapshot permissions before update — the watch(role) resets selectedPermissions
+  // when currentRole changes after update(), so we capture the user's selection first.
+  const permissionsSnapshot = [...selectedPermissions.value]
   try {
     await rolesStore.update(id, { name: form.name })
-    await rolesStore.syncPermissions(id, selectedPermissions.value)
+    await rolesStore.syncPermissions(id, permissionsSnapshot)
     success.value = true
   } catch {
     // error set in store
