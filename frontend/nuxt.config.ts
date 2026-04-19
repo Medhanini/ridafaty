@@ -42,6 +42,15 @@ export default defineNuxtConfig({
         { property: 'og:site_name', content: 'Idafaty' },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+      script: [
+        {
+          src: 'https://www.googletagmanager.com/gtag/js?id=G-1SCZNQBNKB',
+          async: true,
+        },
+        {
+          innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1SCZNQBNKB');`,
+        },
+      ],
     },
   },
 
