@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   // Modules
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-gtag', '@nuxtjs/sitemap'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', '@nuxtjs/sitemap'],
 
   // Register components/shared/ without the "Shared" path prefix so that
   // <AppAlert>, <AppModal>, <RichEditor> resolve correctly in templates.
@@ -56,19 +56,9 @@ export default defineNuxtConfig({
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? 'http://localhost:3001/api',
       appName: 'Idafaty',
-      // nuxt-gtag reads this automatically — set NUXT_PUBLIC_GTAG_ID in env
-      gtag: {
-        id: process.env.NUXT_PUBLIC_GTAG_ID ?? '',
-      },
+      // GTM container ID — set NUXT_PUBLIC_GTM_ID in env (e.g. GTM-XXXXXXX)
+      gtmId: process.env.NUXT_PUBLIC_GTM_ID ?? '',
     },
-  },
-
-  // ── Google Analytics (nuxt-gtag) ────────────────────────────────────────────
-  // ID is injected at runtime via runtimeConfig.public.gtag.id — no rebuild needed.
-  gtag: {
-    enabled: process.env.NODE_ENV === 'production',
-    loadingStrategy: 'defer',
-    initMode: 'auto',
   },
 
   // ── Sitemap ─────────────────────────────────────────────────────────────────
