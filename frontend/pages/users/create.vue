@@ -11,6 +11,7 @@ const rolesStore = useRolesStore()
 await rolesStore.fetchAll()
 
 const form = reactive({
+  name: '',
   email: '',
   password: '',
   roleId: undefined as number | undefined,
@@ -45,6 +46,18 @@ async function submit() {
       <AppAlert v-if="usersStore.error" type="error" :message="usersStore.error" dismissible class="mb-5" @dismiss="usersStore.clearError()" />
 
       <form class="space-y-5" @submit.prevent="submit">
+        <div>
+          <label class="mb-1.5 block text-sm font-medium text-gray-700" for="name">Name</label>
+          <input
+            id="name"
+            v-model="form.name"
+            type="text"
+            required
+            placeholder="Full name"
+            class="block w-full rounded-lg border border-gray-200 px-3.5 py-2.5 text-sm placeholder-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
+          />
+        </div>
+
         <div>
           <label class="mb-1.5 block text-sm font-medium text-gray-700" for="email">Email</label>
           <input
