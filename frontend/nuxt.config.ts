@@ -57,7 +57,7 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE ?? 'http://localhost:3001/api',
       appName: 'Idafaty',
       // GTM container ID — set NUXT_PUBLIC_GTM_ID in env (e.g. GTM-XXXXXXX)
-      gtmId: process.env.NUXT_PUBLIC_GTM_ID ?? '',
+      gtmId: process.env.NUXT_PUBLIC_GTM_ID ?? 'GTM-5W85T552',
     },
   },
 
