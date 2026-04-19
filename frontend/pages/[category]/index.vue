@@ -11,9 +11,9 @@ const categorySlug = computed(() => route.params.category as string)
 
 // ── Fetch category (with its subcategories) ───────────────────────────────────
 const { data: categoryData, error: categoryError } = await useAsyncData(
-  () => `category-${categorySlug.value}`,
-  () => publicFetch<{ success: boolean; data: Category }>(`/categories/slug/${categorySlug.value}`),
-  { watch: [categorySlug] },
+  () => `category-${categorySlug.value}-${lang.value}`,
+  () => publicFetch<{ success: boolean; data: Category }>(`/categories/slug/${categorySlug.value}?lang=${lang.value}`),
+  { watch: [categorySlug, lang] },
 )
 
 const category = computed(() => categoryData.value?.data ?? null)
@@ -39,7 +39,7 @@ type ArticleList = { data: Article[]; total: number }
 const { data: articlesData, pending: articlesPending, refresh: refreshArticles } = await useAsyncData(
   () => `category-articles-${categorySlug.value}-${page.value}`,
   () => publicFetch<ArticleList>(
-    `/articles?categoryId=${category.value!.id}&page=${page.value}&limit=${LIMIT}`,
+    `/articles?categoryId=${category.value!.id}&page=${page.value}&limit=${LIMIT}&lang=${lang.value}`,
   ),
   { watch: [page, lang] },
 )

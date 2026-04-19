@@ -12,9 +12,9 @@ const subcategorySlug = computed(() => route.params.subcategory as string)
 
 // ── 1. Fetch subcategory ──────────────────────────────────────────────────────
 const { data: subData } = await useAsyncData(
-  () => `subcategory-${subcategorySlug.value}`,
-  () => publicFetch<{ success: boolean; data: SubCategory }>(`/subcategories/slug/${subcategorySlug.value}`),
-  { watch: [subcategorySlug] },
+  () => `subcategory-${subcategorySlug.value}-${lang.value}`,
+  () => publicFetch<{ success: boolean; data: SubCategory }>(`/subcategories/slug/${subcategorySlug.value}?lang=${lang.value}`),
+  { watch: [subcategorySlug, lang] },
 )
 
 const subcategory   = computed(() => subData.value?.data ?? null)
@@ -44,7 +44,7 @@ const { data: articlesData, pending: articlesPending } = await useAsyncData(
   () => {
     const id = subcategoryId.value
     if (!id) return Promise.resolve(null)
-    return publicFetch<ArticleList>(`/articles?subCategoryId=${id}&page=${page.value}&limit=${LIMIT}`)
+    return publicFetch<ArticleList>(`/articles?subCategoryId=${id}&page=${page.value}&limit=${LIMIT}&lang=${lang.value}`)
   },
   { watch: [subcategoryId, page, lang] },
 )

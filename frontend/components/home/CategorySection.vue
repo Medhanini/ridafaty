@@ -5,20 +5,18 @@ const props = defineProps<{
   category: Category
 }>()
 
-const { t } = useLang()
+const { t, lang } = useLang()
 const { publicFetch } = usePublicFetch()
 
 // ── Intersection Observer — only fetch when section enters viewport ───────────
 
 const sectionRef   = ref<HTMLElement | null>(null)
-const visible      = ref(false)
 const articles     = ref<Article[]>([])
 const loading      = ref(false)
 const fetched      = ref(false)
 
 onMounted(() => {
   if (!window.IntersectionObserver) {
-    // Fallback: fetch immediately if IO not supported
     fetchArticles()
     return
   }
@@ -26,7 +24,6 @@ onMounted(() => {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (entry.isIntersecting && !fetched.value) {
-        visible.value = true
         observer.disconnect()
         fetchArticles()
       }
@@ -37,13 +34,15 @@ onMounted(() => {
   onBeforeUnmount(() => observer.disconnect())
 })
 
+// Re-fetch when language changes (only if section was already loaded)
+watch(lang, () => { if (fetched.value) fetchArticles() })
+
 async function fetchArticles() {
-  if (fetched.value) return
   loading.value = true
   fetched.value = true
   try {
     const result = await publicFetch<{ data: Article[]; total: number }>(
-      `/articles?categoryId=${props.category.id}&limit=4&page=1`,
+      `/articles?categoryId=${props.category.id}&limit=4&page=1&lang=${lang.value}`,
     )
     articles.value = result?.data ?? []
   } finally {

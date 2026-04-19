@@ -19,7 +19,7 @@ type CategoryList  = { data: Category[]; total: number }
 
 const { data: highlightsData, pending: highlightsPending } = await useAsyncData<ArticleList | null>(
   'home-highlights',
-  () => publicFetch<ArticleList>('/articles?limit=5&page=1'),
+  () => publicFetch<ArticleList>(`/articles?limit=5&page=1&lang=${lang.value}`),
   { watch: [lang] },
 )
 const highlights = computed<Article[]>(() => highlightsData.value?.data ?? [])
@@ -27,7 +27,7 @@ const highlights = computed<Article[]>(() => highlightsData.value?.data ?? [])
 // ── Fetch categories ─────────────────────────────────────────────────────────
 const { data: categoriesData } = await useAsyncData<CategoryList | null>(
   'home-categories',
-  () => publicFetch<CategoryList>('/categories?limit=12'),
+  () => publicFetch<CategoryList>(`/categories?limit=12&lang=${lang.value}`),
   { watch: [lang] },
 )
 const categories = computed<Category[]>(() => categoriesData.value?.data ?? [])

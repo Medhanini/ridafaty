@@ -83,7 +83,7 @@ const { data: relatedData } = await useAsyncData<RelatedList | null>(
   () => {
     const id = article.value?.subCategoryId
     if (!id) return Promise.resolve(null)
-    return publicFetch<RelatedList>(`/articles?subCategoryId=${id}&limit=4&page=1`)
+    return publicFetch<RelatedList>(`/articles?subCategoryId=${id}&limit=4&page=1&lang=${lang.value}`)
   },
 )
 const relatedArticles = computed<Article[]>(() =>
