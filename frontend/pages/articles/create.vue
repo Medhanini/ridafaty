@@ -12,12 +12,6 @@ const subCatStore = useSubCategoriesStore()
 const tagsStore = useTagsStore()
 const mediasStore = useMediasStore()
 
-await Promise.all([
-  subCatStore.fetchAll({ limit: 100 }),
-  tagsStore.fetchAll({ limit: 100 }),
-  mediasStore.fetchAll({ limit: 100 }),
-])
-
 const form = reactive({
   title: '',
   content: '',
@@ -26,6 +20,21 @@ const form = reactive({
   subCategoryId: undefined as number | undefined,
   tagIds: [] as number[],
   mediaIds: [] as number[],
+})
+
+await Promise.all([
+  subCatStore.fetchAll({ limit: 100, lang: form.lang }),
+  tagsStore.fetchAll({ limit: 100, lang: form.lang }),
+  mediasStore.fetchAll({ limit: 100 }),
+])
+
+watch(() => form.lang, async (lang) => {
+  form.tagIds = []
+  form.subCategoryId = undefined
+  await Promise.all([
+    subCatStore.fetchAll({ limit: 100, lang }),
+    tagsStore.fetchAll({ limit: 100, lang }),
+  ])
 })
 
 function toggleTag(id: number) {

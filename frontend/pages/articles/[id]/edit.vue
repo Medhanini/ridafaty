@@ -15,13 +15,8 @@ const mediasStore = useMediasStore()
 
 const id = Number(route.params.id)
 
-await Promise.all([
-  articlesStore.fetchById(id),
-  subCatStore.fetchAll({ limit: 100 }),
-  tagsStore.fetchAll({ limit: 100 }),
-  mediasStore.fetchAll({ limit: 100 }),
-])
-
+// Fetch article first so we know its language before fetching lang-filtered resources
+await articlesStore.fetchById(id)
 const article = articlesStore.currentArticle!
 
 const form = reactive({
@@ -32,6 +27,21 @@ const form = reactive({
   subCategoryId: article.subCategoryId as number | undefined,
   tagIds: article.tags?.map((at) => at.tagId) ?? [],
   mediaIds: article.media?.map((am) => am.mediaId) ?? [],
+})
+
+await Promise.all([
+  subCatStore.fetchAll({ limit: 100, lang: form.lang }),
+  tagsStore.fetchAll({ limit: 100, lang: form.lang }),
+  mediasStore.fetchAll({ limit: 100 }),
+])
+
+watch(() => form.lang, async (lang) => {
+  form.tagIds = []
+  form.subCategoryId = undefined
+  await Promise.all([
+    subCatStore.fetchAll({ limit: 100, lang }),
+    tagsStore.fetchAll({ limit: 100, lang }),
+  ])
 })
 
 function toggleTag(id: number) {
