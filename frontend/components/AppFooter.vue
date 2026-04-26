@@ -13,9 +13,9 @@ const { data: categoriesData } = await useAsyncData(
 const categories = computed<Category[]>(() => categoriesData.value?.data ?? [])
 
 const quickLinks = computed(() => [
-  { label: t.value.home,    to: '/'        },
-  { label: t.value.about,   to: '/about'   },
-  { label: t.value.contact, to: '/contact' },
+  { label: t.value.home,    to: `/${lang.value}/` },
+  { label: t.value.about,   to: '/about'          },
+  { label: t.value.contact, to: '/contact'        },
 ])
 
 const socialLinks = [
@@ -51,7 +51,7 @@ const socialLinks = [
 
         <!-- Brand column -->
         <div>
-          <NuxtLink to="/" class="text-2xl font-extrabold tracking-tight text-brand-600 dark:text-brand-400">
+          <NuxtLink :to="`/${lang}/`" class="text-2xl font-extrabold tracking-tight text-brand-600 dark:text-brand-400">
             Idafaty
           </NuxtLink>
           <p class="mt-3 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-gray-400">
@@ -98,7 +98,7 @@ const socialLinks = [
           <ul class="mt-4 space-y-2">
             <li v-for="cat in categories" :key="cat.id">
               <NuxtLink
-                :to="`/${cat.slug}`"
+                :to="`/${lang}/${cat.slug}`"
                 class="text-sm text-gray-600 transition-colors hover:text-brand-600 dark:text-gray-400 dark:hover:text-brand-400"
               >{{ cat.name }}</NuxtLink>
             </li>

@@ -135,10 +135,25 @@ export const LANG_OPTIONS: { code: Lang; label: string; native: string }[] = [
 
 // ── Composable ────────────────────────────────────────────────────────────────
 
+const VALID_LANGS: Lang[] = ['fr', 'en', 'ar']
+
 export function useLang() {
-  const lang = useCookie<Lang>('ridafaty_lang', {
+  const route  = useRoute()
+  const cookie = useCookie<Lang>('ridafaty_lang', {
     default: () => 'fr' as Lang,
     maxAge: 60 * 60 * 24 * 365,
+  })
+
+  const lang = computed<Lang>(() => {
+    const p = route.params.lang as string | undefined
+    if (p && VALID_LANGS.includes(p as Lang)) return p as Lang
+    return cookie.value
+  })
+
+  // Keep cookie in sync so fallback stays fresh after navigation
+  watchEffect(() => {
+    const p = route.params.lang as string | undefined
+    if (p && VALID_LANGS.includes(p as Lang)) cookie.value = p as Lang
   })
 
   const isRTL  = computed(() => lang.value === 'ar')
@@ -147,7 +162,8 @@ export function useLang() {
   const label  = computed(() => LANG_OPTIONS.find((o) => o.code === lang.value)?.label ?? 'FR')
 
   function setLang(l: Lang) {
-    lang.value = l
+    cookie.value = l
+    navigateTo(`/${l}/`)
   }
 
   function formatDate(dateStr: string): string {

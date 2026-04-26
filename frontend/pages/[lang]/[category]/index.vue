@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import type { Article, Category, SubCategory } from '~/types'
 
-definePageMeta({ layout: 'default' })
+definePageMeta({
+  layout: 'default',
+  validate: (route) => ['fr', 'en', 'ar'].includes(route.params.lang as string),
+})
 
-const route         = useRoute()
-const { t, lang }   = useLang()
+const route           = useRoute()
+const { t, lang }     = useLang()
 const { publicFetch } = usePublicFetch()
 
 const categorySlug = computed(() => route.params.category as string)
 
-// ── Fetch category (with its subcategories) ───────────────────────────────────
 const { data: categoryData, error: categoryError } = await useAsyncData(
   () => `category-${categorySlug.value}-${lang.value}`,
   () => publicFetch<{ success: boolean; data: Category }>(`/categories/slug/${categorySlug.value}?lang=${lang.value}`),
@@ -18,25 +20,22 @@ const { data: categoryData, error: categoryError } = await useAsyncData(
 
 const category = computed(() => categoryData.value?.data ?? null)
 
-// Redirect to 404 if not found
 if (!category.value) {
   throw createError({ statusCode: 404, statusMessage: 'Category not found' })
 }
 
-// ── SEO ───────────────────────────────────────────────────────────────────────
 useSeoMeta({
   title:       computed(() => category.value?.name ?? ''),
   description: computed(() => `${t.value.allArticles} — ${category.value?.name ?? ''}`),
   ogTitle:     computed(() => category.value?.name ?? ''),
 })
 
-// ── Fetch articles by category (paginated) ────────────────────────────────────
 const page  = ref(Number(route.query.page) || 1)
 const LIMIT = 12
 
 type ArticleList = { data: Article[]; total: number }
 
-const { data: articlesData, pending: articlesPending, refresh: refreshArticles } = await useAsyncData(
+const { data: articlesData, pending: articlesPending } = await useAsyncData(
   () => `category-articles-${categorySlug.value}-${page.value}`,
   () => publicFetch<ArticleList>(
     `/articles?categoryId=${category.value!.id}&page=${page.value}&limit=${LIMIT}&lang=${lang.value}`,
@@ -51,7 +50,6 @@ const subcategories = computed<SubCategory[]>(
   () => (category.value as Category & { subCategories?: SubCategory[] })?.subCategories ?? [],
 )
 
-// ── Pagination ────────────────────────────────────────────────────────────────
 async function changePage(p: number) {
   page.value = p
   await navigateTo({ query: { page: p > 1 ? p : undefined } }, { replace: true })
@@ -59,7 +57,7 @@ async function changePage(p: number) {
 }
 
 const breadcrumb = computed(() => [
-  { label: t.value.home, to: '/' },
+  { label: t.value.home, to: `/${lang.value}/` },
   { label: category.value?.name ?? '' },
 ])
 </script>
@@ -67,10 +65,8 @@ const breadcrumb = computed(() => [
 <template>
   <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
 
-    <!-- Breadcrumb -->
     <Breadcrumb :items="breadcrumb" class="mb-6" />
 
-    <!-- Category header -->
     <div class="mb-8">
       <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
         {{ category?.name }}
@@ -80,7 +76,6 @@ const breadcrumb = computed(() => [
       </p>
     </div>
 
-    <!-- Subcategory chips -->
     <div v-if="subcategories.length > 0" class="mb-8">
       <h2 class="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
         {{ t.subcategories }}
@@ -89,7 +84,7 @@ const breadcrumb = computed(() => [
         <NuxtLink
           v-for="sub in subcategories"
           :key="sub.id"
-          :to="`/${categorySlug}/${sub.slug}`"
+          :to="`/${lang}/${categorySlug}/${sub.slug}`"
           class="group flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-brand-400 hover:bg-brand-50 hover:text-brand-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-brand-500 dark:hover:bg-brand-950 dark:hover:text-brand-300"
         >
           {{ sub.name }}
@@ -101,10 +96,8 @@ const breadcrumb = computed(() => [
       </div>
     </div>
 
-    <!-- Divider -->
     <hr class="mb-8 border-gray-100 dark:border-gray-800" />
 
-    <!-- Articles grid -->
     <ArticleGrid
       :articles="articles"
       :loading="articlesPending"

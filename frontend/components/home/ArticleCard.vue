@@ -6,7 +6,7 @@ const props = defineProps<{
   size?: 'sm' | 'md' | 'lg'
 }>()
 
-const { t, formatDate, isRTL } = useLang()
+const { t, lang, formatDate, isRTL } = useLang()
 
 const size = computed(() => props.size ?? 'md')
 
@@ -22,11 +22,10 @@ const categoryName = computed(
 const categorySlug    = computed(() => props.article.subCategory?.category?.slug ?? null)
 const subcategorySlug = computed(() => props.article.subCategory?.slug ?? null)
 
-// Full public URL: /[category]/[subcategory]/[article-slug]
 const articleUrl = computed(() => {
   const cat = categorySlug.value
   const sub = subcategorySlug.value
-  if (cat && sub) return `/${cat}/${sub}/${props.article.slug}`
+  if (cat && sub) return `/${lang.value}/${cat}/${sub}/${props.article.slug}`
   return null
 })
 </script>

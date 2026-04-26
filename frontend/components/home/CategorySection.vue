@@ -59,7 +59,7 @@ async function fetchArticles() {
         {{ category.name }}
       </h2>
       <NuxtLink
-        :to="`/${category.slug}`"
+        :to="`/${lang}/${category.slug}`"
         class="text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300"
       >{{ t.viewAll }}</NuxtLink>
     </div>

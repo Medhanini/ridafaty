@@ -41,7 +41,7 @@ function selectLang(code: typeof lang.value) {
     <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
       <!-- Logo -->
-      <NuxtLink to="/" class="shrink-0 text-xl font-extrabold tracking-tight text-brand-600 dark:text-brand-400">
+      <NuxtLink :to="`/${lang}/`" class="shrink-0 text-xl font-extrabold tracking-tight text-brand-600 dark:text-brand-400">
         Idafaty
       </NuxtLink>
 
@@ -49,14 +49,14 @@ function selectLang(code: typeof lang.value) {
       <ul class="hidden items-center gap-1 overflow-hidden md:flex">
         <li>
           <NuxtLink
-            to="/"
+            :to="`/${lang}/`"
             class="rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-brand-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-brand-400"
             active-class="text-brand-600 dark:text-brand-400"
           >{{ t.home }}</NuxtLink>
         </li>
         <li v-for="cat in categories" :key="cat.id">
           <NuxtLink
-            :to="`/${cat.slug}`"
+            :to="`/${lang}/${cat.slug}`"
             class="rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-brand-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-brand-400"
             active-class="text-brand-600 dark:text-brand-400"
           >{{ cat.name }}</NuxtLink>
@@ -170,7 +170,7 @@ function selectLang(code: typeof lang.value) {
         <ul class="flex flex-col px-4 py-3 gap-0.5">
           <li>
             <NuxtLink
-              to="/"
+              :to="`/${lang}/`"
               class="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-brand-600 dark:text-gray-300 dark:hover:bg-gray-800"
               active-class="text-brand-600 dark:text-brand-400"
               @click="mobileOpen = false"
@@ -178,7 +178,7 @@ function selectLang(code: typeof lang.value) {
           </li>
           <li v-for="cat in categories" :key="cat.id">
             <NuxtLink
-              :to="`/${cat.slug}`"
+              :to="`/${lang}/${cat.slug}`"
               class="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-brand-600 dark:text-gray-300 dark:hover:bg-gray-800"
               active-class="text-brand-600 dark:text-brand-400"
               @click="mobileOpen = false"
